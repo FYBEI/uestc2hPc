@@ -13,6 +13,11 @@
             <button class="btn" v-on:click="changeInfo" :hidden="!hide">修改信息</button>
             <button class="btn sure" v-on:click="sure" :hidden="hide">确认</button>
             <button class="btn cancel" v-on:click="cancel" :hidden="hide">取消</button>
+            <router-link :to="{name:'PubCommodity'}" class="route">
+                <img class="icon" src="//img.alicdn.com/tfs/TB1g54xnMHqK1RjSZFPXXcwapXa-112-112.png"/>
+                <p class="pub">发布商品</p>
+            </router-link>
+            
         </div>
         <div v-if="!iden">
             <img :src="user.img.name" class="img"/>
@@ -176,5 +181,17 @@ export default {
 }
 .cancel{
     background-color: #F10707;
+}
+.route{
+    color: black;
+    text-decoration: none;
+}
+.icon{
+    display: block;
+    margin: 40px 94px 0px 94px;
+}
+.pub{
+    font-family: arial,"Hiragino Sans GB","Microsoft Yahei",sans-serif;;
+    font-size: 20px;
 }
 </style>

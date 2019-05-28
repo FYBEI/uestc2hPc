@@ -1,6 +1,6 @@
 <!-->u2pc首页总组件，包含了背景、两种用户登录框、种类选择栏、内容、底部页码<-->
 <template>
-    <div id="main">
+  <div id="main">
     <background/>
     <div v-if="login">
       <user/>
