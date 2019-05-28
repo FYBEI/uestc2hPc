@@ -4,7 +4,7 @@
         <headwrap/>
         <div class="content"> 
             <userInfo v-bind:iden="iden" :user="user" :tmpuser="tmpuser"/>
-            <usercontent/>
+            <usercontent v-bind:iden="iden"/>
         </div>
         
     </div>   

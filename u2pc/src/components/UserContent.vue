@@ -23,6 +23,10 @@
                     </div>
                     <div class="intro">{{item.intro}}</div>
                 </div>
+                <div class="btn">
+                    <button class="sell" v-on:click="sell(index)" :hidden="!iden">已售</button>
+                    <button class="delete" v-on:click="deleteC(index)" :hidden="!iden">删除</button>
+                </div>
             </div>
         </div>
         <div v-if="idx==1">
@@ -43,6 +47,12 @@
 <script>
 export default {
     name: 'UserContent',
+    props: {
+        iden: {
+            type: Boolean,
+            required: true
+        }
+    },
     data() {
         return {
             tabList: [{id: 0, "text": "待售"},{id: 1, "text": "已售"}],
@@ -77,6 +87,15 @@ export default {
         changeTabbar: function(index){
             this.idx = index
             console.log(this.idx)
+        },
+        sell: function(index){
+            var commodity = this.sellingList[index]
+            this.soldList.push(commodity)
+            this.sellingList.splice(index, 1)
+        },
+        deleteC: function(index){
+            var commodity = this.sellingList[index]
+            this.sellingList.splice(index, 1)
         }
     },
 }
@@ -137,8 +156,8 @@ export default {
 }
 .info{
     height: 100px;
-    width: 380px;
-    float: right;
+    width: 360px;
+    float: left;
 }
 .up, .intro{
     height: 50px;
@@ -164,5 +183,22 @@ export default {
 .intro{
     font-family: 'tahoma', 'arial', '宋体';
     font-size: 15px;
+}
+.btn{
+    width: 20px;
+    height: 100px;
+    float: right;
+}
+.sell, .delete{
+    color: #fff;
+    border: 0px;
+    border-radius: 3px;
+}
+.sell{
+    background-color: greenyellow;
+    margin-bottom: 5px;
+}
+.delete{
+    background-color: red;
 }
 </style>
