@@ -5,7 +5,7 @@
     <div v-if="login">
       <user/>
     </div>
-    <div v-if="!login">
+    <div v-else-if="!login">
       <unloginUser/>
     </div>
 
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      login: true
+      login: false
     }
   }
 }

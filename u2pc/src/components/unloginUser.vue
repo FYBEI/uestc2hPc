@@ -3,22 +3,54 @@
         <div class="input-field">
             <div class="user-field">
                 <span>账号:</span>
-                <input type="text" maxlength="32" tabindex="1" aria-label="邮箱">
+                <input type="text" maxlength="32" tabindex="1" aria-label="邮箱" v-model="email">
             </div>
             
             <div class="pwd-field">
                 <span>密码:</span>
-                <input type="text" maxlength="32" tabindex="2" aria-label="登录密码" autocomplete="off">
+                <input type="text" maxlength="32" tabindex="2" aria-label="登录密码" autocomplete="off" v-model="password">
             </div>
         </div>
 
         <div class="button-field">
-            <button class="loginbtn">登录</button>
+            <button class="loginbtn" v-on="login()">登录</button>
             <button class="loginbtn">注册</button>
         </div>
     </div>
     
 </template>
+
+<script>
+import {setCookie, getCookie, delCookie} from '../js/cookie'
+const axios = require('axios');
+
+export default {
+    name: 'unloginUser',
+    data() {
+        return {
+            email: '',
+            password: '',
+            userId: 0
+        }
+    },
+    methods: {
+        login: function(){
+            setCookie('userId', this.userId, 1000*60)
+            axios.get('http://localhost:8080/login', {
+                params: {
+                    email: this.email,
+                    password: this.password
+                }
+            }).then(function(response){
+                console.log(response)
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
+}
+</script>
+
 
 <style scoped>
     #user{
