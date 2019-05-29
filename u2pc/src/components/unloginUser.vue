@@ -13,7 +13,7 @@
         </div>
 
         <div class="button-field">
-            <button class="loginbtn" v-on="login()">登录</button>
+            <button class="loginbtn" v-on:click="login()">登录</button>
             <button class="loginbtn">注册</button>
         </div>
     </div>
@@ -35,17 +35,33 @@ export default {
     },
     methods: {
         login: function(){
-            setCookie('userId', this.userId, 1000*60)
-            axios.get('http://localhost:8080/login', {
-                params: {
+            // setCookie('userId', this.userId, 1000*60)
+            axios({
+                url: 'http://localhost:8070/login',
+                method: 'get',
+                params:{
                     email: this.email,
                     password: this.password
-                }
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*' 
+                },
+                timeout: 1000
             }).then(function(response){
                 console.log(response)
-            }).catch(function (error) {
-                console.log(error);
-            });
+            })
+            // axios.get('http://localhost:8070/login',
+            // {
+             
+            //     params:{
+            //         email: this.email,
+            //         password: this.password
+            //     }
+                
+            // })
+    
         }
     },
 }
