@@ -13,8 +13,8 @@
         </div>
 
         <div class="button-field">
-            <button class="loginbtn" v-on:click="login()">登录</button>
-            <button class="loginbtn">注册</button>
+            <button class="loginbtn" v-on:click="login">登录</button>
+            <button class="loginbtn" v-on:click="toRegister">注册</button>
         </div>
     </div>
     
@@ -30,15 +30,15 @@ export default {
         return {
             email: '',
             password: '',
-            userId: 0
+            userId: 1
         }
     },
     methods: {
         login: function(){
-            // setCookie('userId', this.userId, 1000*60)
+            setCookie('userId', this.userId, 1000*60)
             axios({
                 url: 'http://localhost:8070/login',
-                method: 'get',
+                method: 'post',
                 params:{
                     email: this.email,
                     password: this.password
@@ -51,19 +51,18 @@ export default {
                 timeout: 1000
             }).then(function(response){
                 console.log(response)
+                if(response.state == 200){
+                    cookie = response.getCookie
+                    console.log(cookie)
+                }
             })
-            // axios.get('http://localhost:8070/login',
-            // {
-             
-            //     params:{
-            //         email: this.email,
-            //         password: this.password
-            //     }
-                
-            // })
     
+        },
+        toRegister: function(){
+            this.$emit("setRegister", true)
         }
-    },
+    }
+    
 }
 </script>
 

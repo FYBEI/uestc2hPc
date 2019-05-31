@@ -6,8 +6,9 @@
       <user/>
     </div>
     <div v-else-if="!login">
-      <unloginUser/>
+      <unloginUser v-on:setRegister="setRegister"/>
     </div>
+    <register v-on:setRegister="setRegister" :hidden="!reg"/>
 
     <router-view/>
     <tabbar/>
@@ -23,6 +24,9 @@ import user from './User.vue'
 import tabbar from './Tabbar.vue'
 import mycontent from './Content.vue'
 import pagenation from './Pagenation'
+import register from './Register'
+
+const axios = require('axios');
 
 export default {
   name: 'MainContent',
@@ -32,13 +36,22 @@ export default {
     tabbar: tabbar,
     mycontent: mycontent,
     pagenation: pagenation,
-    background: background
+    background: background,
+    register: register
   },
   data() {
     return {
-      login: false
+      login: false,
+      reg: false,
+      commodityList: []
+    }
+  },
+  methods: {
+    setRegister: function(reg){
+      this.reg = reg
     }
   }
+  
 }
 </script>
 
