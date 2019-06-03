@@ -8,7 +8,7 @@
             </div>
         </div>
 
-        <router-link :to="{name:'UserDetail', params:{iden:true, user:user}}" class="route">
+        <router-link :to="{name:'UserDetail', params:{iden:true, userId:user.userId}}" class="route">
             <div id="pubedCommodity">
                 <div class="uitem">
                     <img src="//img.alicdn.com/tfs/TB1W0t9nVzqK1RjSZSgXXcpAVXa-52-52.png" class="uicon">

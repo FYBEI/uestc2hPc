@@ -15,7 +15,7 @@
       
         <div v-if="idx==0">
             <div v-for="(item, index) in sellingList"  class="commo">
-                <img :src="item.picture[0]" class="img"/>
+                <img :src="sellingList[index].pictures[0].name" class="img"/>
                 <div class="info">
                     <div class="up">
                         <span class="name">{{item.name}}</span>
@@ -31,7 +31,7 @@
         </div>
         <div v-if="idx==1">
             <div v-for="(item, index) in soldList"  class="commo">
-                <img :src="item.picture[0]" class="img"/>
+                <img :src="soldList[index].pictures[0].name" class="img"/>
                 <div class="info">
                     <div class="up">
                         <span class="name">{{item.name}}</span>
@@ -45,41 +45,28 @@
 </template>
 
 <script>
+const axios = require('axios');
+
 export default {
     name: 'UserContent',
     props: {
         iden: {
             type: Boolean,
             required: true
+        },
+        sellingList: {
+            type: Array,
+            required: true
+        },
+        soldList: {
+            type: Array,
+            required: true
         }
     },
     data() {
         return {
             tabList: [{id: 0, "text": "待售"},{id: 1, "text": "已售"}],
-            sellingList: [ {name: '待售商品名1', price: '10', intro: 'test1,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点,再长一点,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic1.jpg')]}, 
-                {name: '待售商品名2', price: '20', intro: 'test2,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic2.jpg')]}, 
-                {name: '待售商品名3', price: '30', intro: 'test3,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic3.jpg')]}, 
-                {name: '待售商品名4', price: '40', intro: 'test4,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic4.jpg')]},
-                {name: '待售商品名5', price: '50', intro: 'test5,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic5.jpg')]},
             
-                {name: '待售商品名6', price: '10', intro: 'test6,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic1.jpg')]}, 
-                {name: '待售商品名7', price: '20', intro: 'test7,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic2.jpg')]}, 
-                {name: '待售商品名8', price: '30', intro: 'test8,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic3.jpg')]}, 
-                {name: '待售商品名9', price: '40', intro: 'test9,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic4.jpg')]}, 
-                {name: '待售商品名10', price: '50', intro: 'test10,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic5.jpg')]}
-            ],
-            soldList: [ {name: '已售商品名1', price: '10', intro: 'test1,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点,再长一点,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic1.jpg')]}, 
-                {name: '已售商品名2', price: '20', intro: 'test2,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic2.jpg')]}, 
-                {name: '已售商品名3', price: '30', intro: 'test3,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic3.jpg')]}, 
-                {name: '已售商品名4', price: '40', intro: 'test4,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic4.jpg')]},
-                {name: '已售商品名5', price: '50', intro: 'test5,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic5.jpg')]},
-            
-                {name: '已售商品名6', price: '10', intro: 'test6,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic1.jpg')]}, 
-                {name: '已售商品名7', price: '20', intro: 'test7,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic2.jpg')]}, 
-                {name: '已售商品名8', price: '30', intro: 'test8,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic3.jpg')]}, 
-                {name: '已售商品名9', price: '40', intro: 'test9,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic4.jpg')]}, 
-                {name: '已售商品名10', price: '50', intro: 'test10,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic5.jpg')]}
-            ],
             idx: 0
         }
     },
@@ -92,10 +79,48 @@ export default {
             var commodity = this.sellingList[index]
             this.soldList.push(commodity)
             this.sellingList.splice(index, 1)
+
+            axios({
+                url: 'http://localhost:8070/sell',
+                method: 'post',
+                params:{
+                    id: commodity.id
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*' 
+                },
+                timeout: 1000
+            }).then((response)=>{
+                console.log(response)
+                if(response.status == 200){
+                    
+                }
+            })
         },
         deleteC: function(index){
             var commodity = this.sellingList[index]
             this.sellingList.splice(index, 1)
+
+            axios({
+                url: 'http://localhost:8070/delete',
+                method: 'post',
+                params:{
+                    id: commodity.id
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*' 
+                },
+                timeout: 1000
+            }).then((response)=>{
+                console.log(response)
+                if(response.status == 200){
+                    
+                }
+            })
         }
     },
 }
