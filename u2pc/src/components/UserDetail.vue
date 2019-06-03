@@ -15,6 +15,8 @@ import headwrap from './HeadWrap'
 import userInfo from './UserInfo'
 import usercontent from './UserContent'
 
+const axios = require('axios');
+
 export default {
     name: 'UserDetail',
     components: {
@@ -27,23 +29,23 @@ export default {
             iden: '',
             user:{
                 img: {},
-                username: '',
+                userName: '',
                 userId: 0,
                 sign: '',
                 phone: '',
                 email: '',
-                sellingNum: 0,
-                soldNum: 0
+                // sellingNum: 0,
+                // soldNum: 0
             },
             tmpuser: {
                 img: {},
-                username: '',
+                userName: '',
                 userId: 0,
                 sign: '',
                 phone: '',
                 email: '',
-                sellingNum: 0,
-                soldNum: 0
+                // sellingNum: 0,
+                // soldNum: 0
             }
         }
     },
@@ -52,14 +54,14 @@ export default {
     },
     methods: {
         getQuery(){
-            var iden = this.$route.query.iden
-            var user = this.$route.query.user
+            var iden = this.$route.params.iden
+            var user = this.$route.params.user
 
             this.iden = iden
 
             //要对user和tmpuser的属性分别赋值
-            this.user.username = user.username
-            this.tmpuser.username = user.username
+            this.user.userName = user.userName
+            this.tmpuser.userName = user.userName
             this.user.userId = user.userId
             this.tmpuser.userId = user.userId
             this.user.sign = user.sign
@@ -68,10 +70,12 @@ export default {
             this.tmpuser.phone = user.phone
             this.user.email = user.email
             this.tmpuser.email = user.email
-            this.user.sellingNum = user.sellingNum
-            this.tmpuser.sellingNum = user.sellingNum
-            this.user.soldNum = user.soldNum
-            this.tmpuser.soldNum = user.soldNum
+            this.user.password = user.password
+            this.tmpuser.password = user.password
+            // this.user.sellingNum = user.sellingNum
+            // this.tmpuser.sellingNum = user.sellingNum
+            // this.user.soldNum = user.soldNum
+            // this.tmpuser.soldNum = user.soldNum
             this.user.img = user.img
             this.tmpuser.img = user.img
         }

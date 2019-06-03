@@ -47,10 +47,11 @@ export default {
                     'Access-Control-Allow-Origin': '*' 
                 },
                 timeout: 1000
-            }).then(function(response){
+            }).then((response)=>{
                 console.log(response)
-                if(response.state == 200){
+                if(response.status == 200){
                     this.userId = response.data
+                    this.$emit('setRegister', false)
                     console.log(this.userId)
                 }
             })

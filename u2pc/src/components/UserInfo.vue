@@ -5,7 +5,7 @@
             <input class="value" style="display:none" type="file" ref="file" accept="image/*" multiple="multiple" @change="getFile($event)"/>
             <button class="btn" @click="add">上传照片</button>
             <ul class="info">
-                <li>用户名：<input v-model="tmpuser.username" :placeholder="user.username" :readonly="hide" :clearable="hide"></li>
+                <li>用户名：<input v-model="tmpuser.userName" :placeholder="user.userName" :readonly="hide" :clearable="hide"></li>
                 <li>个性签名：<input v-model="tmpuser.sign" :placeholder="user.sign" :readonly="hide" :clearable="hide"></li>
                 <li>手机：<input v-model="tmpuser.phone" :placeholder="user.phone" :readonly="hide" :clearable="hide"></li>
                 <li>邮箱：<input v-model="tmpuser.email" :placeholder="user.email" :readonly="hide" :clearable="hide"></li>
@@ -22,7 +22,7 @@
         <div v-if="!iden">
             <img :src="user.img.name" class="img"/>
             <ul class="info">
-                <li>用户名：<input v-model="tmpuser.username" :readonly="hide" clearable></li>
+                <li>用户名：<input v-model="tmpuser.userName" :readonly="hide" clearable></li>
                 <li>个性签名：<input v-model="tmpuser.sign" :readonly="hide" clearable></li>
                 <li>手机：<input v-model="tmpuser.phone" :readonly="hide" clearable></li>
                 <li>邮箱：<input v-model="tmpuser.email" :readonly="hide" clearable></li>
@@ -32,33 +32,13 @@
 </template>
 
 <script>
+
+const axios = require('axios');
 export default {
     name: 'UserInfo',
     data() {
         return {
-            // user:{
-            //     img: {
-            //         name: require("../assets/head.jpg"),
-            //         size: 0,
-            //         file: null
-            //     },
-            //     username: '用户名',
-            //     sign: '个性签名',
-            //     phone: '15759180826',
-            //     email: 'liuwenxin@gmail.com'
-            // },
-            // tmpuser:{
-            //     img: {
-            //         name: require("../assets/head.jpg"),
-            //         size: 0,
-            //         file: null
-            //     },
-            //     username: '用户名',
-            //     sign: '个性签名',
-            //     phone: '15759180826',
-            //     email: 'liuwenxin@gmail.com'
-            // },
-            // iden: true,
+            
             hide: true,
             file: null,
         }
@@ -79,21 +59,42 @@ export default {
         }
     },
     methods: {
-        changeInfo(){
+        changeInfo: function(){
             this.hide = false
         },
-        sure(){
+        sure: function(){
             this.hide = true
-            this.user.username = this.tmpuser.username
+            this.user.userName = this.tmpuser.userName
             this.user.sign = this.tmpuser.sign
             this.user.phone = this.tmpuser.phone
             this.user.email = this.tmpuser.email
+
+            var user = this.user
+            axios({
+                url: 'http://localhost:8070/setInfo',
+                method: 'post',
+                params:{
+                    userName: user.userName,
+                    sign: user.sign,
+                    phone: user.phone,
+                    email: user.email,
+                    userId: user.userId
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*' 
+                },
+                timeout: 1000
+            }).then((response)=>{
+                console.log(response)
+            })
         },
         cancel(){
             console.log(this.tmpuser.username)
             console.log(this.user.username)
 
-            this.tmpuser.username = this.user.username
+            this.tmpuser.userName = this.user.userName
             this.tmpuser.sign = this.user.sign
             this.tmpuser.phone = this.user.phone
             this.tmpuser.email = this.user.email

@@ -3,10 +3,10 @@
   <div id="main">
     <background/>
     <div v-if="login">
-      <user/>
+      <user v-bind:user="user"/>
     </div>
     <div v-else-if="!login">
-      <unloginUser v-on:setRegister="setRegister"/>
+      <unloginUser v-on:setRegister="setRegister" v-on:getLogin="getLogin"/>
     </div>
     <register v-on:setRegister="setRegister" :hidden="!reg"/>
 
@@ -43,12 +43,40 @@ export default {
     return {
       login: false,
       reg: false,
+      user: {
+        userId: 0,
+        userName: '',
+        password: '',
+        email: '',
+        phone: '',
+        sign: '',
+        img: {
+          id: 0,
+          imgId: 0,
+          name: '',
+          size: 0
+        }
+      },
       commodityList: []
     }
   },
   methods: {
     setRegister: function(reg){
       this.reg = reg
+    },
+    getLogin: function(param){
+      this.login = param.login
+
+      this.user.userId = param.user.userId
+      this.user.userName = param.user.userName
+      this.user.password = param.user.password
+      this.user.email = param.user.email
+      this.user.phone = param.user.phone
+      this.user.sign = param.user.sign
+      this.user.img.imgId = param.user.img.imgId
+      this.user.img.id = param.user.img.id
+      this.user.img.name = param.user.img.name
+      this.user.img.size = param.user.img.size
     }
   }
   

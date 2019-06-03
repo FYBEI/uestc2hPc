@@ -1,14 +1,14 @@
 <template>
     <div id="user">
         <div id="headimg">
-            <img src="../assets/head.jpg" class="img">
+            <img :src="user.img.name" class="img">
             <div id="detail">
-                <p class="text username">{{user.username}}</p>
+                <p class="text username">{{user.userName}}</p>
                 <p class="text signature">{{user.sign}}</p>
             </div>
         </div>
 
-        <router-link :to="{name:'UserDetail', query:{iden:true, user:user}}" class="route">
+        <router-link :to="{name:'UserDetail', params:{iden:true, user:user}}" class="route">
             <div id="pubedCommodity">
                 <div class="uitem">
                     <img src="//img.alicdn.com/tfs/TB1W0t9nVzqK1RjSZSgXXcpAVXa-52-52.png" class="uicon">
@@ -30,22 +30,14 @@
 <script>
 export default {
     name: 'User',
+    props: {
+        user: {
+            type: Object
+        }
+    },
     data() {
         return {
-            user: {
-                img: {
-                    name: require("../assets/head.jpg"),
-                    size: 0,
-                    file: null
-                },
-                username: '用户名',
-                userId: 1,
-                sign: '个性签名',
-                phone: '15759180826',
-                email: 'liuwenxin@gmail.com',
-                sellingNum: 0,
-                soldNum: 0
-            },
+            
         }
     },
 }

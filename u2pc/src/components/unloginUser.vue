@@ -29,8 +29,7 @@ export default {
     data() {
         return {
             email: '',
-            password: '',
-            userId: 1
+            password: ''
         }
     },
     methods: {
@@ -49,11 +48,16 @@ export default {
                     'Access-Control-Allow-Origin': '*' 
                 },
                 timeout: 1000
-            }).then(function(response){
+            }).then((response)=>{
                 console.log(response)
-                if(response.state == 200){
-                    cookie = response.getCookie
-                    console.log(cookie)
+                if(response.status == 200){
+                    var tmp = response.data
+                    var param = {
+                        user: tmp,
+                        login: true
+                    }
+
+                    this.$emit("getLogin", param)
                 }
             })
     
