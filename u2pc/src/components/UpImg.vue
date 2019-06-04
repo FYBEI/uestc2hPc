@@ -7,7 +7,8 @@
             </div>
         </div>
         <input class="value" style="display:none" type="file" ref="file" accept="image/*" multiple="multiple" @change="getFile($event)"/>
-        <button class="btn" @click="add" :disabled="num==5">上传照片</button>       
+        <button class="btn" @click="add" :disabled="num==5">上传照片</button> 
+        <button class="btn" v-on:click="finish" :disabled="num!=5">完成</button>       
     </div>
 </template>
 
@@ -17,6 +18,7 @@ export default {
     data() {
         return {
             pictures: [],
+            params: new FormData(),
             num: 0,
             file: null
         }
@@ -24,6 +26,12 @@ export default {
     methods: {
         add () {
             this.$refs.file.click()
+        },
+        finish: function(){
+            var params = this.params
+            var pictures = this.pictures
+            this.$emit("getParams", params)
+            this.$emit("getPictures", pictures)
         },
         getFile (event) {
             this.file = event.target.files[0]
@@ -33,6 +41,8 @@ export default {
                 file: this.file
             }
             this.html5Reader(this.file, item)
+
+            this.params.append('file', this.file);//通过append向form对象添加数据
             
             this.pictures.push(item)
             console.log(this.pictures)
@@ -46,22 +56,9 @@ export default {
             }
             reader.readAsDataURL(file)
         },
-        submitForm (event) {
-            event.preventDefault()
-            let formData = new FormData()
-            formData.append('file', this.file)
-            let config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                    }
-                }
-            this.axios.post('http://127.0.0.1/index/index/upload', formData, config).then(function (res) {
-                console.log(res)
-                if (res.status === 200) {}
-            })
-        },
         deleteImg (index){
             this.pictures.splice(index, 1)
+            this.num--
             console.log(this.pictures)
         }
     },    

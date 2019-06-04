@@ -3,13 +3,13 @@
         <div class="window" @mouseover="stop" @mouseleave="play">
             <ul class="container" :style="containerStyle">
                 <li>
-                    <img :src="pictures[pictures.length - 1].img" alt="" class="pimg">
+                    <img :src="pictures[pictures.length - 1].name" alt="" class="pimg">
                 </li>
                 <li v-for="(item, index) in pictures" :key="index">
-                    <img :src="item.img" alt="" class="pimg">
+                    <img :src="item.name" alt="" class="pimg">
                 </li>
                 <li>
-                    <img :src="pictures[0].img" alt="" class="pimg">
+                    <img :src="pictures[0].name" alt="" class="pimg">
                 </li>
             </ul>
             <ul class="direction">

@@ -11,8 +11,8 @@
     <register v-on:setRegister="setRegister" :hidden="!reg"/>
 
     <router-view/>
-    <tabbar/>
-    <mycontent/>
+    <tabbar v-on:getKind="getKind"/>
+    <mycontent v-bind:commodityList="commodityList"/>
     <pagenation/>
   </div>
 </template>
@@ -60,6 +60,9 @@ export default {
       commodityList: []
     }
   },
+  created() {
+    this.query()
+  },
   methods: {
     setRegister: function(reg){
       this.reg = reg
@@ -77,7 +80,30 @@ export default {
       this.user.img.id = param.user.img.id
       this.user.img.name = param.user.img.name
       this.user.img.size = param.user.img.size
-    }
+    },
+    getKind(commodityList){
+      this.commodityList = commodityList
+    },
+    async query(){
+            axios({
+                url: 'http://localhost:8070/all',
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                },
+            }).then((response)=>{
+                console.log(response)
+                if(response.status == 200){
+                    var list = response.data
+
+                    for(var i = 0; i < list.length; i+=5){
+                        this.commodityList.push(list.slice(i, i+5))
+                    }
+
+                }
+            })
+        }
   }
   
 }

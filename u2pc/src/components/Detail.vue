@@ -2,14 +2,14 @@
 <template>
     <div id="detail">
         <headwrap/>
-        <sellerinfo/>
+        <sellerinfo v-bind:user="user"/>
         <div class="cwindow">
             <div class="cdinfo">
                 <photos v-bind:pictures="pictures"/>
                 <commodityInfo v-bind:commodity="commodity"></commodityInfo>
             </div> 
         </div>
-        <other/>  
+        <other v-bind:sellingList="sellingList"/>  
     </div>
 </template>
 
@@ -19,6 +19,8 @@ import sellerinfo from './SellerInfo'
 import photos from './Photos'
 import commodityInfo from './CommodityInfo'
 import other from './Other'
+
+const axios = require('axios');
 
 export default {
     name: 'Detail',
@@ -32,7 +34,9 @@ export default {
     data() {
         return {
             commodity: {},
-            pictures: []
+            pictures: [],
+            user: {},
+            sellingList: []
         }
     },
     created() {
@@ -40,13 +44,50 @@ export default {
     },
     methods: {
         getQuery(){
-            var commodity = this.$route.query.commodity
-            var pictures = this.$route.query.commodity.pictures
+            var commodity = this.$route.params.commodity
+            var pictures = this.$route.params.commodity.pictures
             
             this.commodity = commodity
             this.pictures = pictures
             console.log(this.commodity)
             console.log(this.pictures)
+
+            var userId = commodity.userId
+
+            //请求卖家信息
+            axios({
+                url: 'http://localhost:8070/getUserById',
+                method: 'get',
+                params: {
+                    userId: userId
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                }
+            }).then((response)=>{
+                if(response.status == 200){
+                    this.user = response.data
+                }
+            })
+
+            //请求卖家待售商品信息
+            axios({
+                url: 'http://localhost:8070/usersell',
+                method: 'get',
+                params: {
+                    userId: userId,
+                    sell: false
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                }
+            }).then((response)=>{
+                if(response.status == 200){
+                    this.sellingList = response.data
+                }
+            })
         }
     }
 }

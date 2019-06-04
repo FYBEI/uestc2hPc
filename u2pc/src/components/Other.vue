@@ -2,19 +2,19 @@
     <div id="other">
         <div class="xz">卖家其他闲置</div>
         <div v-for="item in 3" class="item">
-            <div v-if="commodities[item-1]">
-                <img :src="commodities[item-1].picture[0]"/>
+            <div v-if="sellingList[item-1]">
+                <img :src="sellingList[item-1].pictures[0].name"/>
                 <div class="info">
                     <div class="up">
-                        <span class="name">{{commodities[item-1].name}}</span>
-                        <span class="price">￥{{commodities[item-1].price}}</span>
+                        <span class="name">{{sellingList[item-1].name}}</span>
+                        <span class="price">￥{{sellingList[item-1].price}}</span>
                     </div>
-                    <div class="intro">{{commodities[item-1].intro}}</div>
+                    <div class="intro">{{sellingList[item-1].intro}}</div>
                 </div>
             </div>
         </div>
         <div class="more">
-            <router-link :to="{name:'UserDetail', query:{iden:false, user:user}}"> 更多...</router-link>
+            <router-link :to="{name:'UserDetail', params:{iden:false, userId:sellingList[0].userId}}"> 更多...</router-link>
         </div>
     </div>
 </template>
@@ -22,29 +22,15 @@
 <script>
 export default {
     name: 'other',
+    props: {
+        sellingList: {
+            type: Array,
+            required: true
+        }
+    },
     data() {
         return {
-            user: {
-                img: {
-                    name: require("../assets/head.jpg"),
-                    size: 0,
-                    file: null
-                },
-                username: '商户名',
-                userId: 1,
-                sign: '商户个性签名',
-                phone: '15759180826',
-                email: 'liuwenxin@gmail.com',
-                sellingNum: 0,
-                soldNum: 0
-            },
-            commodities: [ 
-                {name: '测试商品名1', price: '10', intro: 'test1,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic1.jpg')]}, 
-                {name: '测试商品名2', price: '20', intro: 'test2,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic2.jpg')]}, 
-                {name: '测试商品名3', price: '30', intro: 'test3,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic3.jpg')]}, 
-                {name: '测试商品名4', price: '40', intro: 'test4,这是一段介绍，但是要长一点，否则看起来就很不舒服,再长一点', owner:{username: '123@qq.com'}, picture:[require('../assets/pic4.jpg')]},
-                // {name: '测试商品名5', price: '50', intro: 'test5,这是一段介绍，但是要长一点，否则看起来就很不舒服', owner:{username: '123@qq.com'}, picture:[require('../assets/pic5.jpg')]}
-            ]
+            
         }
     },
 }

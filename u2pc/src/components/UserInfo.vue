@@ -13,7 +13,7 @@
             <button class="btn" v-on:click="changeInfo" :hidden="!hide">修改信息</button>
             <button class="btn sure" v-on:click="sure" :hidden="hide">确认</button>
             <button class="btn cancel" v-on:click="cancel" :hidden="hide">取消</button>
-            <router-link :to="{name:'PubCommodity'}" class="route">
+            <router-link :to="{name:'PubCommodity', params:{userId:user.userId}}" class="route">
                 <img class="icon" src="//img.alicdn.com/tfs/TB1g54xnMHqK1RjSZFPXXcwapXa-112-112.png"/>
                 <p class="pub">发布商品</p>
             </router-link>

@@ -2,8 +2,8 @@
 <template>
     <div id="main">
         <headwrap/>
-        <upImg/>
-        <fullCInfo/>
+        <upImg v-on:getParams="getParams" v-on:getPictures="getPictures"/>
+        <fullCInfo v-bind:userId="userId" :params="params" :pictures="pictures"/>
     </div>
 </template>
 
@@ -21,7 +21,24 @@ export default {
     },
     data() {
         return {
-            
+            userId: 0,
+            params: new FormData(),
+            pictures: []
+        }
+    },
+    created() {
+        this.getUserId()
+    },
+    methods: {
+        getParams(params){
+            this.params = params
+            console.log(params)
+        },
+        getPictures(pictures){
+            this.pictures = pictures
+        },
+        getUserId(){
+            this.userId = this.$route.params.userId
         }
     },    
 }

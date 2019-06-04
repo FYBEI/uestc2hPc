@@ -18,8 +18,24 @@
 </template>
 
 <script>
+const axios = require('axios');
+
 export default {
     name: 'FullCInfo',
+    props: {
+        params: {
+            type: FormData,
+            required: true
+        },
+        pictures:{
+            type: Array,
+            required: true
+        },
+        userId: {
+            type: Number,
+            required: true
+        }
+    },
     data() {
         return {
             commodity:{
@@ -33,8 +49,37 @@ export default {
     },
     methods: {
         sure: function(){
+            console.log(this.params)
             //post
-            this.$router.push({name:'MainContent'})
+            axios({
+                url: 'http://localhost:8070/pub',
+                method: 'post',
+                params: {
+                    name: this.commodity.name,
+                    price: this.commodity.price,
+                    intro: this.commodity.intro,
+                    kind: this.commodity.kind,
+                    userId: this.userId
+                }
+            }).then((response)=>{
+                console.log(response)
+                var commodityId = response.data;
+                console.log(this.params.get('file'))
+                if(response.status == 200){
+                    
+                    axios({
+                        url: 'http://localhost:8070/pubImgs',
+                        data: this.params,
+                        params: {
+                            commodityId: commodityId
+                        },
+                        method: 'post'
+                    }).then((response)=>{
+                        console.log(response)
+                    })
+                }
+            })
+
         }
     },    
 }

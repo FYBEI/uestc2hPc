@@ -3,7 +3,7 @@
         <div v-for="(row,rdx) in commodityList" class="row">
             
                 <div v-for="(item,idx) in row" class="commo">
-                    <router-link :to="{name:'Detail', query:{commodity:commodityList[rdx][idx]}}" class="route">
+                    <router-link :to="{name:'Detail', params:{commodity:commodityList[rdx][idx]}}" class="route">
                         <img :src="item.pictures[0].name" class="cimg"/>
                         <div class="cinfo"><span class="cname">{{item.name}}</span>: {{item.intro}}</div>
                         <div class="cprice">￥{{item.price}}</div>
@@ -19,9 +19,14 @@
 const axios = require('axios');
 export default {
     name: "mycontent",
+    props:{
+        commodityList: {
+            type: Array,
+            required: true
+        }
+    },
     data() {
         return {
-            commodityList: []
             
         }
     },
@@ -36,32 +41,8 @@ export default {
                     commodity: this.commodities[rdx][idx]
                 }
             })
-        },
-        async query(){
-            axios({
-                url: 'http://localhost:8070/all',
-                method: 'get',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8',
-                },
-            }).then((response)=>{
-                console.log(response)
-                if(response.status == 200){
-                    var list = response.data
-
-                    for(var i = 0; i < list.length; i+=5){
-                        this.commodityList.push(list.slice(i, i+5))
-                    }
-
-                }
-            })
         }
-    },
-    created() {
-        this.query()
     }
-  
 }
 </script>
 

@@ -6,7 +6,7 @@
             </router-link>
             
             <div>
-                <div class="sellername">昵称：{{user.username}}</div>
+                <div class="sellername">昵称：{{user.userName}}</div>
                 <div class="connect">
                     <div v-if="user.email">邮箱：{{user.email}}</div>
                     <div v-if="user.phone">电话：{{user.phone}}</div>
@@ -16,7 +16,7 @@
         <div class="wrap">
             <div>
                 <span>已售数量</span>
-                <span>{{user.soldnum}}</span>
+                
             </div>
             <div>
                 <span>最近编辑</span>
@@ -29,22 +29,14 @@
 <script>
 export default {
     name: 'SellerInfo',
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    },
     data() {
         return {
-            user: {
-                img: {
-                    name: require("../assets/head.jpg"),
-                    size: 0,
-                    file: null
-                },
-                username: '商户名',
-                userId: 1,
-                sign: '商户个性签名',
-                phone: '15759180826',
-                email: 'liuwenxin@gmail.com',
-                sellingNum: 0,
-                soldNum: 0
-            },
             createTime: "2019-5-22"
         }
     },
